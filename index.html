@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kenny Tech Architect — Automated business systems, built with AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --stone: #EAE6DD; --paper: #F6F4EE; --ink: #201F1A; --ink-soft: #5B584C;
+    --forest: #1F3D2B; --forest-deep: #14261A; --brass: #A9825A; --line: rgba(32,31,26,0.16);
+    box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --stone:#17160F; --paper:#1E1C15; --ink:#EDEAE0; --ink-soft:#B4AF9E; --forest:#6FA98B; --forest-deep:#8FC2A6; --brass:#CBA36E; --line:rgba(237,234,224,0.16); }
+  }
+  :root[data-theme="dark"] { --stone:#17160F; --paper:#1E1C15; --ink:#EDEAE0; --ink-soft:#B4AF9E; --forest:#6FA98B; --forest-deep:#8FC2A6; --brass:#CBA36E; --line:rgba(237,234,224,0.16); }
+  html { scroll-padding-top: 90px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--stone); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; } img,svg{max-width:100%;display:block}
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+  h1,h2,h3 { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -0.01em; margin: 0; }
+  h1 { font-size: clamp(36px, 5.4vw, 56px); line-height: 1.08; }
+  h2 { font-size: clamp(26px, 3.6vw, 34px); line-height: 1.16; }
+  h3 { font-size: 19px; font-weight: 600; }
+  p { margin: 0 0 15px; color: var(--ink-soft); } p:last-child{margin-bottom:0}
+  .rule { border: none; border-top: 1px solid var(--line); }
+  section { padding: 78px 0; scroll-margin-top: 90px; }
+  .eyebrow { font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; color: var(--brass); margin-bottom: 10px; }
+
+  header.site { position: sticky; top: 0; z-index: 50; background: var(--stone); padding: 20px 0; border-bottom: 1px solid var(--line); }
+  header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; text-decoration: none; }
+  nav.links { display: flex; gap: 26px; font-size: 14.5px; }
+  nav.links a { text-decoration: none; color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: color .15s, border-color .15s; }
+  nav.links a:hover, nav.links a.on { color: var(--ink); border-color: var(--brass); }
+  details.mnav summary { list-style:none; cursor:pointer; border:1px solid var(--line); border-radius:3px; padding:7px 13px; font-size:14px; color:var(--ink-soft);}
+  details.mnav summary::-webkit-details-marker{display:none}
+  details.mnav { display:none; }
+  @media (max-width: 700px){ nav.links{display:none} details.mnav{display:block} details.mnav .menu{position:absolute;left:20px;right:20px;margin-top:10px;background:var(--paper);border:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:12px} details.mnav a{text-decoration:none;color:var(--ink)} }
+
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:3px; font-size:15px; font-weight:500; text-decoration:none; border:1px solid transparent; transition:background .15s,border-color .15s; }
+  .btn-primary { background:var(--forest); color:#F6F4EE; } .btn-primary:hover{background:var(--forest-deep)}
+  .btn-ghost { border-color:var(--line); color:var(--ink); } .btn-ghost:hover{border-color:var(--ink-soft)}
+
+  .hero-full{background:#1F3D2B;padding:100px 0 90px}
+  .hero-full-copy{opacity:0;animation:rise .7s .05s ease forwards;max-width:760px}
+  .hero-full h1{color:#F6F4EE}
+  .hero-full .lede{color:rgba(246,244,238,0.82);font-size:18.5px;max-width:54ch;margin-top:20px}
+  .hero-full .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .btn-invert{background:#F6F4EE;color:#14261A} .btn-invert:hover{background:#fff}
+  .btn-line{color:#F6F4EE;border-color:rgba(246,244,238,0.42)} .btn-line:hover{border-color:#F6F4EE}
+
+  .status-pill{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;color:rgba(246,244,238,0.78);margin-bottom:20px}
+  .status-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--brass);display:inline-block;flex:none}
+
+  .util-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+  .pill-btn{border:1px solid rgba(246,244,238,0.3);color:#F6F4EE;border-radius:999px;padding:9px 18px;font-size:13.5px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:border-color .15s,background .15s}
+  .pill-btn:hover{border-color:#F6F4EE;background:rgba(246,244,238,0.08)}
+
+  h1.mega{font-size:clamp(42px,7vw,72px);line-height:1.03}
+
+  .notice-box{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--brass);padding:18px 22px;margin-top:8px;max-width:600px}
+  .notice-box p{color:var(--ink);font-size:14.5px}
+  .notice-box.on-dark{background:rgba(246,244,238,0.07);border-color:rgba(246,244,238,0.18);border-left-color:var(--brass)}
+  .notice-box.on-dark p{color:#F6F4EE}
+
+  .bars{margin-top:18px}
+  .bar-row{display:grid;grid-template-columns:190px 1fr 100px;align-items:center;gap:18px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .bar-row:first-child{border-top:1px solid var(--line)}
+  .bar-row .label{font-size:14.5px;color:var(--ink)}
+  .bar-track{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+  .bar-fill{height:100%;background:var(--forest);border-radius:4px}
+  .bar-row .value{font-size:14.5px;text-align:right;color:var(--ink-soft);white-space:nowrap}
+  @media (max-width:560px){.bar-row{grid-template-columns:1fr;gap:8px}.bar-row .value{text-align:left}}
+
+  .features{padding:64px 0 68px}
+  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:38px}
+  @media (max-width:760px){.feature-grid{grid-template-columns:1fr;gap:32px}}
+  .f-num{font-family:'Fraunces',serif;font-style:italic;color:var(--brass);font-size:15px;margin-bottom:12px}
+  .feature-col h3{margin-bottom:8px}
+  .f-link{display:inline-block;margin-top:12px;font-size:14px;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--brass);padding-bottom:1px}
+
+  .grid-2{display:grid;grid-template-columns:0.8fr 1.2fr;gap:56px}
+  @media (max-width:800px){.grid-2{grid-template-columns:1fr;gap:20px}}
+  .col{max-width:660px}
+
+  .cv-block{margin-bottom:26px}
+  .cv-block h3{margin-bottom:4px}
+  .cv-block .meta{font-size:13px;color:var(--brass);margin-bottom:8px;font-family:'Fraunces',serif;font-style:italic}
+  .cv-callout{background:var(--paper);border:1px solid var(--line);padding:22px 24px;margin-top:6px}
+  .cv-callout .stats{display:flex;gap:26px;margin:14px 0 4px;flex-wrap:wrap}
+  .cv-callout .stat b{display:block;font-family:'Fraunces',serif;font-size:22px}
+  .cv-callout .stat span{font-size:12px;color:var(--ink-soft)}
+
+  .cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 14px}
+  @media (max-width:640px){.cert-grid{grid-template-columns:1fr}}
+  .cert-grid li{list-style:none;border:1px solid var(--line);padding:12px 14px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+  .cert-grid li .dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--brass);margin-top:7px}
+
+  .tier{border:1px solid var(--line);background:var(--paper);padding:32px;margin-bottom:22px}
+  .tier.flagship{border-color:var(--forest);box-shadow:0 0 0 1px var(--forest) inset}
+  @media (max-width:640px){.tier{padding:22px}}
+  .tier-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px}
+  .tier-tag{display:inline-block;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--brass);border:1px solid var(--brass);border-radius:20px;padding:3px 11px;margin-bottom:10px}
+  .price{font-family:'Fraunces',serif;font-size:27px;white-space:nowrap}
+  .price span{display:block;font-size:12.5px;color:var(--ink-soft);font-family:'IBM Plex Sans',sans-serif;margin-top:2px;font-weight:400}
+  ul.outcomes{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:10px}
+  ul.outcomes li{padding-left:20px;position:relative;font-size:15px;color:var(--ink)}
+  ul.outcomes li::before{content:"—";position:absolute;left:0;color:var(--brass)}
+  .tier .foot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:6px}
+  .tier .note{font-size:12.5px;color:var(--ink-soft)}
+
+  .low-ticket{border:1px dashed var(--brass);padding:24px;background:var(--paper);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  .low-ticket .price{font-size:22px}
+
+  footer.site{padding:56px 0 64px}
+  footer.site .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer.site small{display:block;margin-top:6px;color:var(--ink-soft);font-size:12.5px}
+  a.mail{text-decoration:none;border-bottom:1px solid var(--brass);padding-bottom:1px}
+
+  .contact-box{background:var(--paper);border:1px solid var(--line);padding:34px;max-width:640px}
+  .contact-box ul{margin:14px 0 0;padding-left:18px}
+  .contact-box li{margin-bottom:6px;font-size:15px;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#top">Kenny Tech Architect</a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <details class="mnav"><summary>Menu</summary><div class="menu">
+      <a href="#about">About</a><a href="#services">Services</a><a href="#contact">Contact</a>
+    </div></details>
+  </div>
+</header>
+
+<section id="top" class="hero-full">
+  <div class="wrap">
+    <div class="hero-full-copy">
+      <div class="status-pill"><span class="dot"></span> Now booking Q4 discovery calls</div>
+      <div class="util-row">
+        <a class="pill-btn" href="#contact">Book a call</a>
+        <a class="pill-btn" href="#services">View pricing</a>
+        <a class="pill-btn" href="#about">How it works</a>
+      </div>
+      <div class="notice-box on-dark" style="margin-bottom:30px;">
+        <p>Taking on a small number of founding clients this quarter, at a founding rate.</p>
+      </div>
+      <h1 class="mega">Your business,<br>running itself.</h1>
+      <p class="lede">Website, payments, accounts, socials and email, planned and connected as one working system, not a set of disconnected tools. No agency overhead. No coding background required.</p>
+      <div class="hero-actions">
+        <a class="btn btn-invert" href="#contact">Book a discovery call</a>
+        <a class="btn btn-line" href="#services">See how it works &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="breakdown" style="padding:56px 0 58px;">
+  <div class="wrap">
+    <div class="eyebrow">What's included, by tier</div>
+    <div class="bars">
+      <div class="bar-row">
+        <div class="label">Simple Website</div>
+        <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+        <div class="value">From £350</div>
+      </div>
+      <div class="bar-row">
+        <div class="label">Business Launch</div>
+        <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+        <div class="value">From £750</div>
+      </div>
+      <div class="bar-row">
+        <div class="label">Automated Business System</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        <div class="value">From £2,500</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="approach" class="features">
+  <div class="wrap">
+    <div class="feature-grid">
+      <div class="feature-col">
+        <div class="f-num">01</div>
+        <h3>A website built to convert</h3>
+        <p>Designed around how your customers actually decide and buy, not dropped in from a generic template.</p>
+        <a class="f-link" href="#services">See the services &rarr;</a>
+      </div>
+      <div class="feature-col">
+        <div class="f-num">02</div>
+        <h3>Everything connected</h3>
+        <p>Payments, accounts, socials, email and enquiries wired together, so nothing gets copied between systems by hand.</p>
+        <a class="f-link" href="#services">See the services &rarr;</a>
+      </div>
+      <div class="feature-col">
+        <div class="f-num">03</div>
+        <h3>Built to run itself</h3>
+        <p>The repetitive parts of running the business automated, with a clear handover so you understand what runs and why.</p>
+        <a class="f-link" href="#services">See the services &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow">About</div>
+    <h2 style="margin-bottom:36px;">Business background, applied to software.</h2>
+
+    <div class="grid-2">
+      <div>
+        <h3 style="margin-bottom:14px;">Kenneth Nzegbulem</h3>
+        <p>I plan and build automated online businesses, and I run one myself. My background is business, not computer science, which shapes how I build: every decision is made with the customer and the numbers in mind first, and the technology second.</p>
+      </div>
+
+      <div class="col">
+        <div class="cv-block">
+          <h3>Education</h3>
+          <div class="meta">BA (Hons) Business and Management, 2:1 &middot; University of Kent</div>
+          <p>A business degree, not a technical one. It's the reason the systems I build are judged by whether they make a business run better, not by how clever the code looks.</p>
+        </div>
+
+        <div class="cv-block">
+          <h3>Career</h3>
+          <div class="meta">Operations, data and customer-facing roles</div>
+          <p>I've worked across operations and customer-facing roles at organisations including <strong>Apple</strong> and <strong>Southeastern Railway</strong>, and in market research with <strong>Ipsos</strong>. Every one of those roles involved the same thing: making a process that was slow or manual work properly, for real customers, under real pressure.</p>
+        </div>
+
+        <div class="cv-block">
+          <h3>Certifications</h3>
+          <div class="meta">Google, 2026</div>
+          <p>I hold Google AI certifications across prompting, applied AI, planning, research, writing, content, data analysis and presentation building. The full list is below.</p>
+        </div>
+
+        <div class="cv-callout">
+          <div class="eyebrow" style="margin-bottom:4px;">Where the proof comes from</div>
+          <p>I took that background and built <strong>Forever Calculated Careers</strong>, a live job platform operating across 19 countries covering remote, hybrid and in-person roles, entirely by directing AI: the website, the accounts system, subscriptions, an automated job feed, and the backend that runs it all. It's mentioned here as evidence, not as the whole story. It's the clearest example of what the process behind these services can build.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:44px;">
+      <h3 style="margin-bottom:16px;">Certifications</h3>
+      <ul class="cert-grid">
+        <li><span class="dot"></span>AI Fundamentals</li>
+        <li><span class="dot"></span>Google Prompting Essentials Specialization</li>
+        <li><span class="dot"></span>Design Prompts for Everyday Work Tasks</li>
+        <li><span class="dot"></span>Start Writing Prompts Like a Pro</li>
+        <li><span class="dot"></span>Use AI as a Creative or Expert Partner</li>
+        <li><span class="dot"></span>AI for Brainstorming and Planning</li>
+        <li><span class="dot"></span>AI for Research and Insights</li>
+        <li><span class="dot"></span>AI for Writing and Communicating</li>
+        <li><span class="dot"></span>AI for Content Creation</li>
+        <li><span class="dot"></span>Speed Up Data Analysis and Presentation Building</li>
+        <li><span class="dot"></span>AI for Data Analysis</li>
+        <li><span class="dot"></span>AI for App Building</li>
+        <li><span class="dot"></span>AI for App Deployment</li>
+        <li><span class="dot"></span>Google AI</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="services">
+  <div class="wrap">
+    <div class="eyebrow">Services</div>
+    <h2 style="margin-bottom:10px;">Three ways to work together.</h2>
+    <p style="max-width:60ch;margin-bottom:40px;">Every engagement starts with a conversation about your business, not a template. What's below is the outcome you get. The exact plan is built around you.</p>
+
+    <div class="tier flagship">
+      <div class="tier-tag">Flagship service</div>
+      <div class="tier-top">
+        <h3 style="font-size:24px;">The Automated Business System</h3>
+        <div class="price">From £2,500<span>Scoped to your business</span></div>
+      </div>
+      <p>A complete online business, planned and built around your customer, then connected end to end so it runs itself day to day.</p>
+      <ul class="outcomes">
+        <li>A website designed around how your customers actually decide and buy</li>
+        <li>Payments and accounts set up and tested, ready to take real customers</li>
+        <li>Your website, socials, email and enquiries connected, so nothing needs copying between them by hand</li>
+        <li>The repetitive parts of running the business automated, with a clear handover so you understand what runs and why</li>
+        <li>A live, working business at the end, not a set of separate tools</li>
+      </ul>
+      <div class="foot">
+        <a class="btn btn-primary" href="#contact">Book a discovery call</a>
+        <span class="note">Final price depends on scope. Confirmed after a short call.</span>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-tag">For a simpler start</div>
+      <div class="tier-top">
+        <h3 style="font-size:22px;">Business Launch</h3>
+        <div class="price">From £750<span>Fixed scope</span></div>
+      </div>
+      <p>For a new or small business that needs a proper website and its accounts connected, without the full automated system.</p>
+      <ul class="outcomes">
+        <li>A custom website on your own domain</li>
+        <li>Contact, booking or enquiry forms wired to your inbox</li>
+        <li>Basic payment setup if you sell online</li>
+      </ul>
+      <div class="foot">
+        <a class="btn btn-primary" href="https://buy.stripe.com/eVqcN7fxh5r422sbxRcs80j" target="_blank" rel="noopener">Get started for £750</a>
+        <a class="btn btn-ghost" href="#contact">Ask a question first</a>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-tag">Simplest option</div>
+      <div class="tier-top">
+        <h3 style="font-size:22px;">Simple Website</h3>
+        <div class="price">From £350<span>Fixed scope</span></div>
+      </div>
+      <p>A clean, professional brochure or blog site. No payments, no accounts, just a proper online presence.</p>
+      <div class="foot">
+        <a class="btn btn-primary" href="https://buy.stripe.com/fZubJ3bh1cTwayY1Xhcs80i" target="_blank" rel="noopener">Get started for £350</a>
+        <a class="btn btn-ghost" href="#contact">Ask a question first</a>
+      </div>
+    </div>
+
+    <div class="low-ticket">
+      <div>
+        <h3>The Website Prompt Pack</h3>
+        <p style="margin-top:6px;max-width:46ch;">25 tested prompts for planning, building and fixing a website with AI, plus a one page launch checklist. A small, practical starting point if you want to try this yourself first.</p>
+      </div>
+      <div style="text-align:right;">
+        <div class="price">£19</div>
+        <a class="btn btn-primary" style="margin-top:12px;" href="https://buy.stripe.com/eVqeVf3OzaLo36w0Tdcs806" target="_blank" rel="noopener">Get the pack</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow">Contact</div>
+    <h2 style="margin-bottom:24px;">Tell me about your business.</h2>
+    <div class="contact-box">
+      <p>The best next step is a short call. Email me and include:</p>
+      <ul>
+        <li>What your business does, and who it's for</li>
+        <li>What you already have online, if anything</li>
+        <li>Which service above sounds closest to what you need</li>
+      </ul>
+      <p style="margin-top:18px;">
+        <a class="btn btn-primary" href="mailto:kennethnzegbulem@gmail.com?subject=Let's%20talk%20about%20my%20business">Email kennethnzegbulem@gmail.com</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <p style="margin:0;">Kenny Tech Architect</p>
+      <small>Business Architect | Founder &amp; Operator</small>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
